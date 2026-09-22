@@ -38,6 +38,11 @@
         /// </summary>
         public OrderResult ProcessOrder(string productId, int quantity, decimal taxRate)
         {
+            if (taxRate < 0)  // EXPOSED BUG 2: FAILED because original code doesn't properly validate taxRate
+            {
+                throw new ArgumentOutOfRangeException(nameof(taxRate), "Tax rate can't be negative.");
+            }
+
             if (!_inventory.ContainsKey(productId))
             {
                 return new OrderResult { IsSuccess = false, Message = "Product not found." };
@@ -57,7 +62,7 @@
 
             decimal discount = 0.0m;
 
-            if (quantity >= 10 && quantity < 50)
+            if (quantity >= 10 && quantity < 50) // EXPOSED BUG 1: FAILED because original code condition states "> 10" instead of ">= 10"
             {
                 discount = 0.10m;
             }

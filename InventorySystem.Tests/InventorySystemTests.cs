@@ -65,7 +65,6 @@ public class InventoryOrderTests
         OrderResult result = _service.ProcessOrder("P03", 10, 0.00m); // 10 * $10 = $100 -> 10% off = $90.00
 
         // Assert
-        // EXPOSED BUG 1: FAILED on original logic because condition states "> 10" instead of ">= 10"
         Assert.True(result.IsSuccess);
         Assert.Equal(90.00m, result.TotalCost);
     }
@@ -121,7 +120,7 @@ public class InventoryOrderTests
 
         // Act & Assert
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _service.ProcessOrder("P06", 2, -0.15m));
-        Assert.Contains("Tax rate cannot be negative.", exception.Message);
+        Assert.Contains("Tax rate can't be negative.", exception.Message);
     }
 
 
