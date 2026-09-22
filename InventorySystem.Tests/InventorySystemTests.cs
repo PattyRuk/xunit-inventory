@@ -52,7 +52,7 @@ public class InventoryOrderTests
     }
 
 
-    //2: EDGE CASES / BOUNDARIES
+    // 2: EDGE CASES / BOUNDARIES
 
     [Fact]
     public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount()
@@ -99,5 +99,20 @@ public class InventoryOrderTests
         Assert.False(result.IsSuccess);
         Assert.Equal("Insufficient stock.", result.Message);
     }
+
+
+
+    // 3: EXCEPTION HANDLING
+    
+    [Fact]
+    public void AddProduct_NullProductObject_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => _service.AddProduct(null!));
+        Assert.Equal("Invalid product details.", exception.Message);
+    }
+
+
+
 
 }
