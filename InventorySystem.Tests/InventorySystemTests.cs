@@ -65,9 +65,24 @@ public class InventoryOrderTests
         OrderResult result = _service.ProcessOrder("P03", 10, 0.00m); // 10 * $10 = $100 -> 10% off = $90.00
 
         // Assert
-        // EXPOSED BUG 1: FAILED on original logic because condition states "quantity > 10" instead of ">= 10"
+        // EXPOSED BUG 1: FAILED on original logic because condition states "> 10" instead of ">= 10"
         Assert.True(result.IsSuccess);
         Assert.Equal(90.00m, result.TotalCost);
+    }
+
+    [Fact]
+    public void ProcessOrder_ConsumeRemainingStock_ReducesStockToZero()
+    {
+        // Arrange
+        var product = new Product { Id = "P04", Name = "Item", UnitPrice = 5.00m, StockQuantity = 5 };
+        _service.AddProduct(product);
+
+        // Act
+        OrderResult result = _service.ProcessOrder("P04", 5, 0.00m);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(0, _service.GetProduct("P04")?.StockQuantity);
     }
 
 
