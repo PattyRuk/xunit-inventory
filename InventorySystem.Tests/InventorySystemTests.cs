@@ -8,7 +8,7 @@ public class InventoryOrderTests
 {
     private readonly InventoryOrderService _service = new();
     
-    // 1: HAPPY PATH SCENARIOS
+    // 1: HAPPY PATH 
     [Fact]
     public void ProcessOrder_ValidOrder_DeductsStockAndCalculatesTotal()
     {
