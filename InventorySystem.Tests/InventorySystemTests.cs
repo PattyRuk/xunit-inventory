@@ -112,7 +112,17 @@ public class InventoryOrderTests
         Assert.Equal("Invalid product details.", exception.Message);
     }
 
+    [Fact]
+    public void ProcessOrder_NegativeTaxRate_ThrowsArgumentOutOfRangeException()
+    {
+        // Arrange
+        var product = new Product { Id = "P06", Name = "Item", UnitPrice = 10.00m, StockQuantity = 10 };
+        _service.AddProduct(product);
 
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _service.ProcessOrder("P06", 2, -0.15m));
+        Assert.Contains("Tax rate cannot be negative.", exception.Message);
+    }
 
 
 }
