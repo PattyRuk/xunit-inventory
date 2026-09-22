@@ -85,6 +85,19 @@ public class InventoryOrderTests
         Assert.Equal(0, _service.GetProduct("P04")?.StockQuantity);
     }
 
+        [Fact]
+    public void ProcessOrder_StockOneShort_ReturnsInsufficientStock()
+    {
+        // Arrange
+        var product = new Product { Id = "P05", Name = "Item", UnitPrice = 5.00m, StockQuantity = 4 };
+        _service.AddProduct(product);
 
+        // Act
+        OrderResult result = _service.ProcessOrder("P05", 5, 0.00m);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal("Insufficient stock.", result.Message);
+    }
 
 }
