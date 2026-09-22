@@ -40,5 +40,15 @@ public class InventoryOrderTests
         Assert.Equal(400.00m, result.TotalCost);
     }
 
+    [Fact]
+    public void ProcessOrder_ProductNotFound_ReturnsUnsuccessful()
+    {
+        // Act
+        OrderResult result = _service.ProcessOrder("INVALID_ID", 1, 0.05m);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal("Product not found.", result.Message);
+    }
 
 }
