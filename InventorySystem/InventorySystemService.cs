@@ -57,7 +57,7 @@
 
             decimal discount = 0.0m;
 
-            if (quantity > 10 && quantity < 50)
+            if (quantity >= 10 && quantity < 50)
             {
                 discount = 0.10m;
             }
