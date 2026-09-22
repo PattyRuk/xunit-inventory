@@ -38,7 +38,7 @@
         /// </summary>
         public OrderResult ProcessOrder(string productId, int quantity, decimal taxRate)
         {
-            if (taxRate < 0)  // EXPOSED BUG 2: FAILED because original code doesn't properly validate taxRate
+            if (taxRate < 0)  // BUG 2 FIX: FAILED because original code doesn't properly validate taxRate
             {
                 throw new ArgumentOutOfRangeException(nameof(taxRate), "Tax rate can't be negative.");
             }
@@ -62,7 +62,7 @@
 
             decimal discount = 0.0m;
 
-            if (quantity >= 10 && quantity < 50) // EXPOSED BUG 1: FAILED because original code condition states "> 10" instead of ">= 10"
+            if (quantity >= 10 && quantity < 50) // BUG 1 FIX: FAILED because original code condition states "> 10" instead of ">= 10"
             {
                 discount = 0.10m;
             }

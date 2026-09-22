@@ -55,7 +55,7 @@ public class InventoryOrderTests
     // 2: EDGE CASES / BOUNDARIES
 
     [Fact]
-    public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount()
+    public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount() // EXPOSED BUG 1
     {
         // Arrange
         var product = new Product { Id = "P03", Name = "Tool", UnitPrice = 10.00m, StockQuantity = 20 };
@@ -112,7 +112,7 @@ public class InventoryOrderTests
     }
 
     [Fact]
-    public void ProcessOrder_NegativeTaxRate_ThrowsArgumentOutOfRangeException()
+    public void ProcessOrder_NegativeTaxRate_ThrowsArgumentOutOfRangeException()  // EXPOSED BUG 2
     {
         // Arrange
         var product = new Product { Id = "P06", Name = "Item", UnitPrice = 10.00m, StockQuantity = 10 };
