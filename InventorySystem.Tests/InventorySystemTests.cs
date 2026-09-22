@@ -8,7 +8,7 @@ public class InventoryOrderTests
 {
     private readonly InventoryOrderService _service = new();
     
-    // HAPPY PATH SCENARIOS
+    // 1: HAPPY PATH SCENARIOS
     [Fact]
     public void ProcessOrder_ValidOrder_DeductsStockAndCalculatesTotal()
     {
@@ -50,5 +50,25 @@ public class InventoryOrderTests
         Assert.False(result.IsSuccess);
         Assert.Equal("Product not found.", result.Message);
     }
+
+
+    //2: EDGE CASES / BOUNDARIES
+
+    [Fact]
+    public void ProcessOrder_ExactlyTenItems_AppliesTenPercentDiscount()
+    {
+        // Arrange
+        var product = new Product { Id = "P03", Name = "Tool", UnitPrice = 10.00m, StockQuantity = 20 };
+        _service.AddProduct(product);
+
+        // Act
+        OrderResult result = _service.ProcessOrder("P03", 10, 0.00m); // 10 * $10 = $100 -> 10% off = $90.00
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(90.00m, result.TotalCost);
+    }
+
+
 
 }
