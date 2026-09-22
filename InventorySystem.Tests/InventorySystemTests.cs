@@ -25,5 +25,20 @@ public class InventoryOrderTests
         Assert.Equal(15, _service.GetProduct("P01")?.StockQuantity);
     }
 
+    [Fact]
+    public void ProcessOrder_FiftyPlusItems_AddsTwentyPercentDiscount()
+    {
+        // Arrange
+        var product = new Product { Id = "P02", Name = "Gadget", UnitPrice = 10.00m, StockQuantity = 100 };
+        _service.AddProduct(product);
+
+        // Act
+        OrderResult result = _service.ProcessOrder("P02", 50, 0.00m); // 50 * $10 = $500 -> 20% off = $400
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(400.00m, result.TotalCost);
+    }
+
 
 }
